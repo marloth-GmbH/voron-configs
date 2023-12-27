@@ -35,3 +35,15 @@ Install can-utils
 ```
 sudo apt install can-utils
 ```
+
+# Flash Katapult to MCU to update Fimware via canbus
+```
+git clone https://github.com/Arksine/katapult
+cd katapult/
+make menuconfig
+make -j4
+dmesg -HW
+dfu-util -R -a 0 -s 0x08000000:mass-erase:force -D ~/katapult/out/katapult.bin
+sudo systemctl stop klipper.service
+~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0
+```
