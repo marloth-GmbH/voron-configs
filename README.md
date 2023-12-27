@@ -30,3 +30,8 @@ create the interface /etc/network/interfaces.d/can0
 sudo bash -c 'echo -e "# CAN-Bus\nauto can0\niface can0 can static\n  bitrate 1000000\n  up ifconfig \$IFACE txqueuelen 1024" > /etc/network/interfaces.d/can0'
 
 ```
+
+Install can-utils
+```
+sudo apt install can-utils
+```
