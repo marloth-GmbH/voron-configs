@@ -19,25 +19,14 @@ sudo service klipper start
 
 ## Set up CAN-Interface with RS485 CAN BUS Shield 
 
-Activate SPI
+Activate SPI and add device tree entry to /boot/config.txt
 ```
-raspi-config
-```
-3 Interface Options --> I4 SPI --> Enable (Yes) 
-
-
-add to /boot/config.txt
-```
-dtparam=spi=on
-dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000
+echo -e "dtparam=spi=on\ndtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000" | sudo tee -a /boot/config.txt
 ```
 
 
-/etc/network/interfaces.d/can0
+create the interface /etc/network/interfaces.d/can0
 ```
-# CAN-Bus
-auto can0
-iface can0 can static
-  bitrate 1000000
-  up ifconfig $IFACE txqueuelen 1024
+sudo bash -c 'echo -e "# CAN-Bus\nauto can0\niface can0 can static\n  bitrate 1000000\n  up ifconfig \$IFACE txqueuelen 1024" > /etc/network/interfaces.d/can0'
+
 ```
