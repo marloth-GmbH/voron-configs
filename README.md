@@ -36,7 +36,9 @@ Install can-utils
 sudo apt install can-utils
 ```
 
-# Flash Katapult to MCU to update Fimware via canbus
+## Flash Katapult to MCU to update Fimware via canbus
+
+Get Katapult, build Katapult, connect MCU in DFU-mode (check with dmesg), flash Katapult, stop Klipper, search for device-IDs on the canbus
 ```
 git clone https://github.com/Arksine/katapult
 cd katapult/
@@ -46,4 +48,15 @@ dmesg -HW
 dfu-util -R -a 0 -s 0x08000000:mass-erase:force -D ~/katapult/out/katapult.bin
 sudo systemctl stop klipper.service
 ~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0
+```
+
+## Update Firmware via canbus
+
+build klipper, search for device-IDs on the canbus, flash Klipper to a canbus-ID
+```
+cd ~/klipper/
+make menuconfig
+make -j4
+~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0
+~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u d9f16e998d9a
 ```
