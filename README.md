@@ -19,10 +19,10 @@ sudo service klipper start
 
 ## Set up CAN-Interface with RS485 CAN BUS Shield 
 
-Activate SPI and add device tree entry to /boot/config.txt
-dtparam=spi=on is set per default by Klipper, so might not be needed.
+Add device tree entry to /boot/config.txt
+dtparam=spi=on is set per default by Klipper. If not used with Klipper you also have to set dtparam=spi=on
 ```
-echo -e "dtparam=spi=on\ndtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000" | sudo tee -a /boot/config.txt
+echo -e "dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000" | sudo tee -a /boot/config.txt
 ```
 
 
